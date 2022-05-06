@@ -1,9 +1,10 @@
 import cv2
 import mediapipe as mp
 import time
+import pyautogui
 
 #fps, 1 is the webcam listed
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(2)
 
 mpHands = mp.solutions.hands
 hands = mpHands.Hands()
@@ -16,6 +17,9 @@ cTime = 0
 while True:
     #might be able to supply a new background image here or split camera data from overlay
     success, img = cap.read()
+    #Adjusts window size, may need to take in screen or windows parameters or adjust with gui
+    #todo invert it so hand moves correctly on screen, make movement 1:1
+    #img = cv2.resize(img, None, None, fx=2, fy=2)
 
     #converts image to picture for mpHands
     imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -30,6 +34,7 @@ while True:
                 cx, cy = int(lm.x*w), int(lm.y*h)
                 if id == 20:
                     print(id, cx, cy)
+                    pyautogui.moveTo(cx, cy)
 
 
 
